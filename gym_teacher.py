@@ -12,6 +12,7 @@ out_path = INJECTED_FITS
 
 
 
+# put all files in need of injections in fits_path
 files = [f for f in listdir(fits_path) if isfile(join(fits_path, f))]
 
 
