@@ -9,10 +9,14 @@ import time
 from paths import TRAINING_DIR, OUTSIDE_DIR
 from pathlib import Path
 
+
+
 def analyze_poisson_noise(flats_file, chunk_size=15, plots=False, output_dir='plots'):
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+    
+
     
     # Load the FITS image
     with fits.open(flats_file) as hdul:
@@ -66,6 +70,7 @@ def analyze_poisson_noise(flats_file, chunk_size=15, plots=False, output_dir='pl
             L = len(flats_file)
             i = flats_file.find('telescope')
             name = flats_file[i + 12:L-5]
+        plt.ion
         
         # Create a grid for plotting
         x = np.arange(num_chunks_width + 1)
@@ -77,7 +82,7 @@ def analyze_poisson_noise(flats_file, chunk_size=15, plots=False, output_dir='pl
         ax1 = fig.add_subplot(121, projection='3d')
         sc1 = ax1.scatter(x, y, medians, c=medians, cmap='viridis', marker='o')
         fig.colorbar(sc1, ax=ax1, shrink=.3, aspect=10)
-        ax1.view_init(elev=90, azim=-90)
+        ax1.view_init(elev=elev, azim=azim)
         ax1.set_title('3D Plot of Medians')
         ax1.set_xlabel('Chunk Index X')
         ax1.set_ylabel('Chunk Index Y')
@@ -87,7 +92,7 @@ def analyze_poisson_noise(flats_file, chunk_size=15, plots=False, output_dir='pl
         ax2 = fig.add_subplot(122, projection='3d')
         sc2 = ax2.scatter(x, y, means, c=means, cmap='viridis', marker='o')
         fig.colorbar(sc2, ax=ax2, shrink=.3, aspect=10)
-        # ax2.view_init(elev=90, azim=-90)
+        ax2.view_init(elev=elev, azim=azim)
         ax2.set_title('3D Plot of Means')
         ax2.set_xlabel('Chunk Index X')
         ax2.set_ylabel('Chunk Index Y')
@@ -231,7 +236,10 @@ def filetrier(inpath, outpath = None):
                 if len(matches) == 1:
                     analyze_poisson_noise(inpath,plots=True, output_dir=outpath)
 
+
 if __name__ == "__main__":
+    elev = 40
+    azim = 40
     if len(sys.argv) ==2:
         inpath = sys.argv[1]
         filetrier(inpath)
@@ -241,7 +249,8 @@ if __name__ == "__main__":
         inpath = sys.argv[1]
         filetrier(inpath,outpath)
     else:
-        inpath =input('please provide filepath: ')
+        # inpath =input('please provide filepath: ')
+        inpath = '/home/borderbenja/training_data/funpacked_fits/telescope_g_UGC_5900_2024_03_15_03_07_56.fits'
         if not len(inpath)==0 and not inpath==None:
             filetrier(inpath)
         else:
@@ -251,8 +260,3 @@ if __name__ == "__main__":
 
 
 
-# Example usage
-# flats_file = '/mnt/14tb_turbo_disk/transfer_data/2024_04_12/telescope_r_UGC_5900_2024_04_13_02_47_40.fits'
-# medians, stds, median = analyze_poisson_noise(flats_file, plots=True)
-# print(np.median(stds), median, median / np.median(stds))
-# print(np.std(stds))
