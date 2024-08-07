@@ -11,7 +11,7 @@ setup(
         ],
     },
     package_data={
-        # Include all files inside mypackage/data
+        
         'fim_scripts': ['default.cfg'],
     },
     install_requires=[

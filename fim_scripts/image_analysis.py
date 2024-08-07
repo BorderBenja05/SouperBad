@@ -46,7 +46,7 @@ def chunk_array(data,chunk_size=60):
     return median, medians, means, stds
 
 
-def analyze_poisson_noise(infile, chunks, ortho, chunk_size=60, plots=True, output_dir='plots'):
+def analyze_poisson_noise(infile, elev, azim, chunks, ortho, chunk_size=60, plots=True, output_dir='plots'):
     # Create the output directory if it doesn't exist
     if output_dir == None:
         output_dir='plots'
@@ -102,6 +102,8 @@ def analyze_poisson_noise(infile, chunks, ortho, chunk_size=60, plots=True, outp
             x, \
             y, \
             elongations, \
+            elev, \
+            azim, \
             output_dir=output_dir, \
             chunkwidth=num_chunks_width, \
             chunkheight=num_chunks_height,

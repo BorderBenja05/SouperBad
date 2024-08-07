@@ -18,6 +18,8 @@ def plotter(infile, \
             x, \
             y, \
             elongations, \
+            elev,
+            azim,
             output_dir='plots', \
             chunkwidth=None, \
             chunkheight=None, \
@@ -32,9 +34,9 @@ def plotter(infile, \
 
     default = configparser.ConfigParser()
     default.read(f'{FUTILITY_DIR}/fim_scripts/default.cfg')
+
+
     
-    elev = int(default['DEFAULT']['elev'])
-    azim = int(default['DEFAULT']['azim'])
 
     if 'left' in infile:
         L = len(infile)

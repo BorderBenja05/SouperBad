@@ -36,16 +36,16 @@ def filefinder(filename_chunk):
 
 
 
-def filetrier(inpath, chunks, ortho, outpath = None):
+def filetrier(inpath, elev, azim, chunks, ortho, outpath = None):
 
     if not outpath:
         try:
-            analyze_poisson_noise(inpath, chunks, ortho ,plots=True)
+            analyze_poisson_noise(inpath, elev, azim, chunks, ortho ,plots=True)
         except FileNotFoundError:
             subdirs = get_all_directories(FUTILITY_DIR) + [OUTSIDE_DIR]
             for directory in subdirs:
                 try:
-                    analyze_poisson_noise(f'{directory}/{inpath}', chunks, ortho ,plots=True)
+                    analyze_poisson_noise(f'{directory}/{inpath}', elev, azim, chunks, ortho ,plots=True)
                     exit()
                 except:
                     pass
@@ -66,11 +66,11 @@ def filetrier(inpath, chunks, ortho, outpath = None):
                         choice =input("which number match do you want to try?: ")
                         try:
                             choice=int(choice)
-                            analyze_poisson_noise(matches[choice], chunks, ortho , plots=True)
+                            analyze_poisson_noise(matches[choice], elev, azim, chunks, ortho , plots=True)
                         except:
                             exit()
                 if len(matches) == 1:
-                    analyze_poisson_noise(matches[0], chunks, ortho , plots=True)
+                    analyze_poisson_noise(matches[0], elev, azim, chunks, ortho , plots=True)
 
                 
                     
@@ -81,12 +81,12 @@ def filetrier(inpath, chunks, ortho, outpath = None):
         return None
     else:
         try:
-            analyze_poisson_noise(inpath, chunks, ortho ,plots=True)
+            analyze_poisson_noise(inpath, elev, azim, chunks, ortho ,plots=True)
         except FileNotFoundError:
             subdirs = get_all_directories(FUTILITY_DIR) + [OUTSIDE_DIR]
             for directory in subdirs:
                 try:
-                    analyze_poisson_noise(f'{directory}/{inpath}', chunks, ortho ,plots=True, output_dir=outpath)
+                    analyze_poisson_noise(f'{directory}/{inpath}', elev, azim, chunks, ortho ,plots=True, output_dir=outpath)
                     exit()
                 except:
                     pass
@@ -108,11 +108,11 @@ def filetrier(inpath, chunks, ortho, outpath = None):
                         choice =input("which number match do you want to try?: ")
                         try:
                             choice=int(choice)
-                            analyze_poisson_noise(inpath, chunks, ortho ,plots=True, output_dir=outpath)
+                            analyze_poisson_noise(inpath, elev, azim, chunks, ortho ,plots=True, output_dir=outpath)
                         except:
                             exit()
                 if len(matches) == 1:
-                    analyze_poisson_noise(inpath, chunks, ortho ,plots=True, output_dir=outpath)
+                    analyze_poisson_noise(inpath, elev, azim, chunks, ortho ,plots=True, output_dir=outpath)
 
 
 if __name__ == "__main__":

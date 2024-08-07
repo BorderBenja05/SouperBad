@@ -8,10 +8,11 @@ def main():
 
     # parses arguments 
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument('-ortho', action='store_true')
-    parser.add_argument('-o','-outpath', dest='outpath', type=str)
-    parser.add_argument('-f', dest='infile', type=str)
-    parser.add_argument('-chunks', action='store_true')
+    parser.add_argument('-v', dest='view', nargs=2, type=int, help="specifies viewing angle(in alt/az)")
+    parser.add_argument('-ortho', action='store_true', help='triggers orgthographic projection in plotting')
+    parser.add_argument('-o','-outpath', dest='outpath', help='Specific outpath')
+    parser.add_argument('-chunks', action='store_true', help='enables chunked averaging')
+    parser.add_argument('infile', nargs='?', type=str, help="Input file")
 
     # assigns arguments to variables
     args = parser.parse_args()
@@ -19,11 +20,19 @@ def main():
     inpath = args.infile
     chunks = args.chunks
     ortho = args.ortho
+    elev = args.view[0]
+    azim = args.view[1]
+    
 
+
+    default = configparser.ConfigParser()
     if not inpath:
-        default = configparser.ConfigParser()
-        default.read(f'{FUTILITY_DIR}/default.cfg')
+        default.read(f'{FIM_SCRIPTS_DIR}/default.cfg')
         inpath = default['DEFAULT']['inpath']
+    if not args.view:
+        default.read(f'{FIM_SCRIPTS_DIR}/default.cfg')
+        elev = int(default['DEFAULT']['elev'])
+        azim = int(default['DEFAULT']['azim'])
     
     
 
@@ -31,9 +40,9 @@ def main():
     # inpath =input('please provide filepath: ')
 
     if not outpath:
-        filetrier(inpath, chunks, ortho)
+        filetrier(inpath, elev, azim, chunks, ortho)
     else:
-        filetrier(inpath, outpath, chunks, ortho)
+        filetrier(inpath, elev, azim, outpath, chunks, ortho)
 
 if __name__ == "__main__":
     main()
