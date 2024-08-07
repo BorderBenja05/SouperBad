@@ -37,9 +37,9 @@ def move_files(folder_path, outpath):
     files = os.listdir(folder_path)
     for file in files:
         os.rename(os.path.join(folder_path, file),os.path.join(outpath,file) )
-    
 
-if __name__ == "__main__":
+
+def main():
     if len(sys.argv) ==2:
         folder_path = sys.argv[1]
         rename_files(folder_path)
@@ -57,3 +57,6 @@ if __name__ == "__main__":
         # rename_files(folder_path)
         # t.sleep(3)
         # rename_files(folder_path)
+
+if __name__ == "__main__":
+    main()

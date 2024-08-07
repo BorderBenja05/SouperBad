@@ -6,7 +6,7 @@ from astropy.io import fits
 from mpl_toolkits.mplot3d import Axes3D
 import argparse
 import time
-from paths import TRAINING_DIR, OUTSIDE_DIR
+from paths import FUTILITY_DIR, OUTSIDE_DIR
 from pathlib import Path
 
 
@@ -17,7 +17,10 @@ def analyze_poisson_noise(flats_file, chunk_size=15, plots=False, output_dir='pl
         os.makedirs(output_dir)
     
 
-    
+    #############################################################################################
+    ## IF YOU ARE USING THIS FOR PROCESSED FITS FILES(these are generally anything over 200mb) ##
+    ##     YOU MUST CHANGE THE HDUL[0] TO HDUL[3] OR IT WILL ANALYZE THE WRONG IMAGE           ##
+    #############################################################################################
     # Load the FITS image
     with fits.open(flats_file) as hdul:
         data = hdul[0].data
@@ -145,7 +148,7 @@ def get_files_in_directory(folder_path):
 
 
 def filefinder(filename_chunk):
-    files = get_all_files(TRAINING_DIR) # + get_files_in_directory(OUTSIDE_DIR)
+    files = get_all_files(FUTILITY_DIR)  + get_files_in_directory(OUTSIDE_DIR)
     # print(files[-1][-5:-1])
     matches = []
     for file in files:
@@ -164,7 +167,7 @@ def filetrier(inpath, outpath = None):
         try:
             analyze_poisson_noise(inpath,plots=True)
         except FileNotFoundError:
-            subdirs = get_all_directories(TRAINING_DIR) + [OUTSIDE_DIR]
+            subdirs = get_all_directories(FUTILITY_DIR) + [OUTSIDE_DIR]
             for directory in subdirs:
                 try:
                     analyze_poisson_noise(f'{directory}/{inpath}',plots=True)
@@ -205,7 +208,7 @@ def filetrier(inpath, outpath = None):
         try:
             analyze_poisson_noise(inpath,plots=True)
         except FileNotFoundError:
-            subdirs = get_all_directories(TRAINING_DIR) + [OUTSIDE_DIR]
+            subdirs = get_all_directories(FUTILITY_DIR) + [OUTSIDE_DIR]
             for directory in subdirs:
                 try:
                     analyze_poisson_noise(f'{directory}/{inpath}',plots=True, output_dir=outpath)
@@ -250,7 +253,7 @@ if __name__ == "__main__":
         filetrier(inpath,outpath)
     else:
         # inpath =input('please provide filepath: ')
-        inpath = '/home/borderbenja/training_data/funpacked_fits/telescope_g_UGC_5900_2024_03_15_03_07_56.fits'
+        inpath = '/home/borderbenja/futility/funpacked_fits/telescope_g_UGC_5900_2024_03_15_03_07_56.fits'
         if not len(inpath)==0 and not inpath==None:
             filetrier(inpath)
         else:

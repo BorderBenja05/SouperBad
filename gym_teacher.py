@@ -1,11 +1,11 @@
 import numpy as np
 import time
-from training_data.get_sources import getcenter
+from get_sources import getcenter
 import gaussian as ga
 import xml.etree.ElementTree as ET
 from os import listdir
 from os.path import isfile, join, splitext, split
-from paths import TRAINING_DIR, FUNPACKED_FITS, INJECTED_FITS, CAT_DIR
+from paths import FUTILITY_DIR, FUNPACKED_FITS, INJECTED_FITS, CAT_DIR
 from flats_noise import noise_maker1
 fits_path = FUNPACKED_FITS
 out_path = INJECTED_FITS
