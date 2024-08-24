@@ -54,17 +54,28 @@ def analyze_poisson_noise(infile, elev, azim, chunks, ortho, chunk_size=60, plot
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    
-    
+
     #############################################################################################
     ## IF YOU ARE USING THIS FOR PROCESSED FITS FILES(these are generally anything over 200mb) ##
     ##     YOU MUST CHANGE THE HDUL[0] TO HDUL[3] OR IT WILL ANALYZE THE WRONG IMAGE           ##
     #############################################################################################
 
     # Load the FITS image
+
+
     with fits.open(infile) as hdul:
-        data = hdul[0].data
-    
+        if len(hdul) == 1:
+            data = hdul[0].data
+        elif len(hdul) == 6:
+            data = hdul[4].data
+        else:
+            length = len(hdul)
+            print(f'you gave me a fits file with {length} hudls?, seems like you aint from around here partner...')
+            ans = input('just tell me the index of the hdul you wanna look at i guess: ')
+            data = hdul[ans].data
+
+
+
     # Get image dimensions
     img_height, img_width = data.shape
     num_chunks_height = img_height // chunk_size
