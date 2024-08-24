@@ -36,12 +36,19 @@ def filefinder(filename_chunk):
 
 
 
-def filetrier(inpath, elev, azim, chunks, ortho, outpath = None):
+def filetrier(args):
+    inpath = args['inpath']
+    elev = int(args['elev'])
+    azim = int(args['azim'])
+    chunks = bool(args['chunks'])
+    ortho = bool(args['chunks'])
+    outpath = args['outpath']
 
     if not outpath:
         try:
             analyze_poisson_noise(inpath, elev, azim, chunks, ortho ,plots=True)
         except FileNotFoundError:
+            inpath = Path(inpath)
             subdirs = get_all_directories(FUTILITY_DIR) + [OUTSIDE_DIR]
             for directory in subdirs:
                 try:
@@ -53,7 +60,7 @@ def filetrier(inpath, elev, azim, chunks, ortho, outpath = None):
             inpath = input("please provide another filepath or chunk of filename: ")
             if len(inpath)>4:
                 if inpath[-5:-1] == '.fit'  and not inpath==None:
-                    analyze_poisson_noise(inpath,plots=True)
+                    analyze_poisson_noise(inpath, elev, azim, chunks, ortho, plots=True)
             if len(inpath)<5 or not inpath[-5:-1] == '.fit' :
                 matches = filefinder(inpath)
                 if matches == None:
@@ -94,7 +101,7 @@ def filetrier(inpath, elev, azim, chunks, ortho, outpath = None):
             inpath = input("please provide another filepath or chunk of filename: ")
             if len(inpath)>4:
                 if inpath[-5:-1] == '.fit'  and not inpath==None:
-                    analyze_poisson_noise(inpath,plots=True, output_dir=outpath)
+                    analyze_poisson_noise(inpath, elev, azim, chunks, ortho ,plots=True, output_dir=outpath)
             if len(inpath)<5 or not inpath[-5:-1] == '.fit' :
                 matches = filefinder(inpath)
                 if matches == None:
@@ -133,8 +140,3 @@ if __name__ == "__main__":
             filetrier(inpath)
         else:
             exit()
-
-
-
-
-
