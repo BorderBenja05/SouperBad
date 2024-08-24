@@ -2,7 +2,7 @@ from fim_scripts.image_analysis import analyze_poisson_noise
 import argparse
 import configparser
 from fim_scripts.paths import *
-from fim_scripts.filefinder import filetrier, filefinder, get_all_files, get_all_directories, get_files_in_directory
+from fim_scripts.filefinder import filetrier
 
 def main():
 
@@ -20,8 +20,9 @@ def main():
     inpath = args.infile
     chunks = args.chunks
     ortho = args.ortho
-    elev = args.view[0]
-    azim = args.view[1]
+    if args.view:   
+        elev = args.view[0]
+        azim = args.view[1]
     
 
 
@@ -31,18 +32,23 @@ def main():
         inpath = default['DEFAULT']['inpath']
     if not args.view:
         default.read(f'{FIM_SCRIPTS_DIR}/default.cfg')
-        elev = int(default['DEFAULT']['elev'])
-        azim = int(default['DEFAULT']['azim'])
+        elev = default['DEFAULT']['elev']
+        azim = default['DEFAULT']['azim']
     
+        args={'outpath' : outpath, \
+            'inpath' : inpath, \
+            'elev':elev, \
+            'azim':azim, \
+            'chunks':chunks, \
+            'ortho':ortho ,
+            'elev': elev,
+            'azim':azim
+            }
     
 
 
     # inpath =input('please provide filepath: ')
-
-    if not outpath:
-        filetrier(inpath, elev, azim, chunks, ortho)
-    else:
-        filetrier(inpath, elev, azim, outpath, chunks, ortho)
+    filetrier(args)
 
 if __name__ == "__main__":
     main()
