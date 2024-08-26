@@ -3,7 +3,7 @@ import os
 from paths import FUTILITY_DIR, FUNPACKED_FITS, INJECTED_FITS, CAT_DIR
 
 
-def read_cat_file(file_path):
+def read_txt_file(file_path):
     data = []
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -65,9 +65,9 @@ def getcenter(infile):
     fname = infile.replace('.fits', '.starfinder.cat')
     fname= os.path.basename(fname)
     if not os.path.exists(f'{CAT_DIR}/{fname}'):
-        os.system(f'sex {infile}     -c /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.sex     -FILTER_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.conv     -PARAMETERS_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/starfinder.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.psf')
+        os.system(f'source-extractor {infile}     -c /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.sex     -FILTER_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.conv     -PARAMETERS_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/starfinder.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.psf')
     print(f'using catalog {fname}')
-    data = read_cat_file(f'{CAT_DIR}/{fname}')
+    data = read_txt_file(f'{CAT_DIR}/{fname}')
     indexes = get_indexes_above_threshold(data)
     galdex = []
     gals = []
@@ -84,9 +84,9 @@ def getStars(infile):
     fname = infile.replace('.fits', '.starfinder.cat')
     fname= os.path.basename(fname)
     if not os.path.exists(f'{CAT_DIR}/{fname}'):
-        os.system(f'sex {infile}     -c /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.sex     -FILTER_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.conv     -PARAMETERS_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/starfinder.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.psf')
+        os.system(f'source-extractor {infile}     -c /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.sex     -FILTER_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.conv     -PARAMETERS_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/starfinder.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.psf')
     print(f'using catalog {fname}')
-    data = read_cat_file(f'{CAT_DIR}/{fname}')
+    data = read_txt_file(f'{CAT_DIR}/{fname}')
     indexes = get_indexes_of_stars(data)
     stardex = []
     stars = []
@@ -105,10 +105,10 @@ def analyze_sources(infile, chunksize = 60, chunked_shape=None):
     fname= os.path.basename(fname)
 
     if not os.path.exists(f'{CAT_DIR}/{fname}'):
-        os.system(f'sex {infile}     -c /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.sex     -FILTER_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.conv     -PARAMETERS_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/analysis.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.psf')
+        os.system(f'source-extractor {infile}     -c /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.sex     -FILTER_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.conv     -PARAMETERS_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/analysis.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME /home/borderbenja/anaconda3/envs/pipeline/share/sextractor/default.psf')
     else:
         print(f'using analysis catalog {fname}')
-    data = read_cat_file(f'{CAT_DIR}/{fname}')
+    data = read_txt_file(f'{CAT_DIR}/{fname}')
     indexes = get_indexes_of_all_stars(data)
     new_data = []
     for index in indexes:
