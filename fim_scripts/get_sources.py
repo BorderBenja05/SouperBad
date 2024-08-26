@@ -3,7 +3,7 @@ import os
 from fim_scripts.paths import FUTILITY_DIR, FIM_DATA_DIR, CAT_DIR, FIM_SCRIPTS_DIR
 
 
-def read_cat_file(file_path):
+def read_txt_file(file_path):
     data = []
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -67,7 +67,7 @@ def getcenter(infile):
     if not os.path.exists(f'{CAT_DIR}/{fname}'):
         os.system(f'source-extractor {infile}     -c {FIM_DATA_DIR}/default.sex     -FILTER_NAME {FIM_DATA_DIR}/default.conv     -PARAMETERS_NAME {FIM_DATA_DIR}/starfinder.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME {FIM_DATA_DIR}/default.psf')
     print(f'using catalog {fname}')
-    data = read_cat_file(f'{CAT_DIR}/{fname}')
+    data = read_txt_file(f'{CAT_DIR}/{fname}')
     indexes = get_indexes_above_threshold(data)
     galdex = []
     gals = []
@@ -86,7 +86,7 @@ def getStars(infile):
     if not os.path.exists(f'{CAT_DIR}/{fname}'):
         os.system(f'source-extractor {infile}     -c {FIM_DATA_DIR}/default.sex     -FILTER_NAME {FIM_DATA_DIR}/default.conv     -PARAMETERS_NAME {FIM_DATA_DIR}/starfinder.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME {FIM_DATA_DIR}/default.psf')
     print(f'using catalog {fname}')
-    data = read_cat_file(f'{CAT_DIR}/{fname}')
+    data = read_txt_file(f'{CAT_DIR}/{fname}')
     indexes = get_indexes_of_stars(data)
     stardex = []
     stars = []
@@ -108,7 +108,7 @@ def analyze_sources(infile, chunksize = 60, chunked_shape=None):
         os.system(f'source-extractor {infile}     -c {FIM_DATA_DIR}/default.sex     -FILTER_NAME {FIM_DATA_DIR}/default.conv     -PARAMETERS_NAME {FIM_DATA_DIR}/analysis.param     -CATALOG_NAME {CAT_DIR}/{fname} -PSF_NAME {FIM_DATA_DIR}/default.psf')
     else:
         print(f'using analysis catalog {fname}')
-    data = read_cat_file(f'{CAT_DIR}/{fname}')
+    data = read_txt_file(f'{CAT_DIR}/{fname}')
     indexes = get_indexes_of_all_stars(data)
     new_data = []
     for index in indexes:
