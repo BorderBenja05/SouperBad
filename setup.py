@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='futility',
-    version='0.10',
+    version='0.3.1',
     packages=find_packages(),
     scripts=['fim_scripts/fim.py'],
     entry_points={
