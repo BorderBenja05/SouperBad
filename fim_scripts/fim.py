@@ -3,6 +3,7 @@ import argparse
 import configparser
 from fim_scripts.paths import *
 from fim_scripts.filefinder import filetrier
+import sys
 
 def main():
 
@@ -12,7 +13,9 @@ def main():
     parser.add_argument('-ortho', action='store_true', help='triggers orgthographic projection in plotting')
     parser.add_argument('-o','-outpath', dest='outpath', help='Specific outpath')
     parser.add_argument('-chunks', action='store_true', help='enables chunked averaging')
+    parser.add_argument('-configpath', action='store_true', help='shows path to default.cfg')
     parser.add_argument('infile', nargs='?', type=str, help="Input file")
+    
 
     # assigns arguments to variables
     args = parser.parse_args()
@@ -20,10 +23,13 @@ def main():
     inpath = args.infile
     chunks = args.chunks
     ortho = args.ortho
+    showcfg = args.configpath
     if args.view:   
         elev = args.view[0]
         azim = args.view[1]
-    
+    if showcfg:
+        print(f'{FIM_SCRIPTS_DIR}/default.cfg')
+        sys.exit()
 
 
     default = configparser.ConfigParser()
@@ -35,7 +41,7 @@ def main():
         elev = default['DEFAULT']['elev']
         azim = default['DEFAULT']['azim']
     
-        args={'outpath' : outpath, \
+    args={'outpath' : outpath, \
             'inpath' : inpath, \
             'elev':elev, \
             'azim':azim, \
