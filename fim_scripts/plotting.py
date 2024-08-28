@@ -7,25 +7,24 @@ from fim_scripts.paths import FUTILITY_DIR
 import os
 
 
-def plotter(infile, \
-            chunks, \
-            medians, \
-            means, \
-            stds,
-            fwhms, \
-            spreads, \
-            mags, \
-            x, \
-            y, \
-            elongations, \
-            elev,
-            azim,
-            output_dir='plots', \
-            chunkwidth=None, \
-            chunkheight=None, \
-            ortho=None
-            ):
-    # print(x,y)
+def plotter(args, data_stats):
+    infile = args['infile']
+    chunks = args['chunks']
+    medians = data_stats['medians']
+    means = data_stats['means']
+    stds = data_stats['stds']
+    fwhms = data_stats['']
+    spreads = data_stats['']
+    mags = data_stats['']
+    x = data_stats['y']
+    y = data_stats['x']
+    elongations = data_stats['elongations']
+    elev = args['elev']
+    azim = args['azim']
+    output_dir= args['output_dir']
+    chunkwidth = args['chunkwidth']
+    chunkheight= args['chunkheight']
+    ortho=args['ortho']
     if output_dir == None or not output_dir:
         output_dir='plots'
 
@@ -48,6 +47,8 @@ def plotter(infile, \
         L = len(infile)
         i = infile.find('telescope')
         name = infile[i + 12:L-5]
+    else:
+        name=infile
 
     plt.ion # comment this line out if you dont want the window to be interactive
     
