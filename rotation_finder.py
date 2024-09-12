@@ -73,7 +73,7 @@ def get_pixelscale(inpath, source1, source2):
 
 
     return pix_scale
-def get_cam_angles(inpath, source1, source2, scale, pos):
+# def get_cam_angles(inpath, source1, source2, scale, pos):
 
 
 def get_cam_angle(inpath,source1, source2, scale=False, pos=False):
