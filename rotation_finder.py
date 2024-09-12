@@ -77,8 +77,8 @@ def get_pixelscale(inpath, source1, source2):
 
 
 def get_cam_angle(inpath,source1, source2, scale=False, pos=False):
-    if os.path.isdir('inpath'):
-        paths = 
+    # if os.path.isdir('inpath'):
+    #     paths = 
 
     source1dec_rads =(source1[1][0] + (source1[1][1]/60))*(np.pi/180)
     # print(np.rad2deg(source1dec_rads))
